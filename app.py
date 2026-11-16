@@ -14,7 +14,7 @@ PROFILE = {
     "email": "roshanjadhao267@gmail.com",
     "phone": "+91 7083940298",
     "github": "https://github.com/bunnyjadhao",
-    "linkedin": "https://linkedin.com/in/roshan-jadhao",
+    "linkedin": "https://www.linkedin.com/in/roshan-jadhao-257b33344/",
     "summary": (
         "Information Technology engineer with hands-on exposure to data preprocessing, "
         "exploratory analysis, machine learning and model evaluation. I enjoy turning data "
