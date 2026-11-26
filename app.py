@@ -46,6 +46,7 @@ PROFILE = {
     "projects": [
         {
             "name": "AI Impact on Students",
+            "type": "Classification | Logistic Regression",
             "date": "Oct 2026",
             "stack": ["Python", "Pandas", "NumPy", "Scikit-learn", "Logistic Regression", "Flask"],
             "desc": (
@@ -58,6 +59,7 @@ PROFILE = {
         },
         {
             "name": "House Price Prediction",
+            "type": "Regression | Linear Regression",
             "date": "Sep 2026",
             "stack": ["Python", "Flask", "Scikit-learn", "Pandas", "HTML", "CSS"],
             "desc": (
@@ -69,6 +71,7 @@ PROFILE = {
         },
         {
             "name": "Drowsiness Detection System",
+            "type": "Computer Vision | EAR + MAR",
             "date": "Feb 2025",
             "stack": ["Python", "Flask", "JavaScript", "MediaPipe", "Render"],
             "desc": (
@@ -96,139 +99,188 @@ PROFILE = {
 
 PAGE = """
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ p.name }} | Data Science Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){}</script>
 <style>
-  :root { --c1:#667eea; --c2:#764ba2; --c3:#f093fb; --ink:#1f2340; --card:rgba(255,255,255,.95); }
+  :root[data-theme="dark"] { --bg:#0d1117; --bg2:#0d1117; --panel:#161b22; --line:#30363d; --ink:#e6edf3; --mut:#8b949e;
+    --a1:#58a6ff; --a2:#3fb950; --a3:#d2a8ff; --a4:#ffa657; --nav:rgba(13,17,23,.85); --hero:var(--ink); --shadow:none; }
+  :root[data-theme="gradient"] { --bg:linear-gradient(135deg,#667eea,#764ba2 55%,#f093fb); --panel:rgba(255,255,255,.95);
+    --line:#e8e8f5; --ink:#1f2340; --mut:#6b6f8d; --a1:#667eea; --a2:#764ba2; --a3:#764ba2; --a4:#c0392b;
+    --nav:rgba(31,35,64,.4); --hero:#fff; --shadow:0 10px 30px rgba(0,0,0,.15); }
   * { box-sizing:border-box; margin:0; padding:0; }
   html { scroll-behavior:smooth; }
-  body { font-family:'Poppins',system-ui,sans-serif; color:var(--ink);
-         background:linear-gradient(135deg,var(--c1),var(--c2) 55%,var(--c3)); background-attachment:fixed; }
-  nav { position:sticky; top:0; z-index:10; display:flex; justify-content:center; flex-wrap:wrap; gap:6px;
-        padding:12px; backdrop-filter:blur(10px); background:rgba(31,35,64,.35); }
-  nav a { color:#fff; text-decoration:none; padding:6px 14px; border-radius:20px; font-size:.9rem; transition:.2s; }
-  nav a:hover { background:rgba(255,255,255,.25); }
-  header { text-align:center; color:#fff; padding:80px 20px 60px; }
-  .avatar { width:160px; height:160px; border-radius:50%; margin:0 auto 20px; object-fit:cover; display:block;
-            border:4px solid #fff; box-shadow:0 8px 25px rgba(0,0,0,.3); }
-  header h1 { font-size:clamp(2rem,6vw,3.4rem); }
-  header p.title { font-size:1.2rem; opacity:.95; margin:8px 0 4px; }
-  header p.loc { opacity:.8; font-size:.95rem; }
-  .btns { margin-top:24px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-  .btn { padding:10px 22px; border-radius:30px; text-decoration:none; font-weight:600; font-size:.9rem;
-         background:#fff; color:var(--c2); transition:transform .2s; }
-  .btn.ghost { background:transparent; color:#fff; border:2px solid #fff; }
-  .btn:hover { transform:translateY(-3px); }
-  main { max-width:1000px; margin:0 auto; padding:0 20px 60px; }
-  section { background:var(--card); border-radius:20px; padding:30px; margin-bottom:28px;
-            box-shadow:0 10px 30px rgba(0,0,0,.15); }
-  h2 { font-size:1.5rem; margin-bottom:18px; background:linear-gradient(90deg,var(--c1),var(--c2));
-       -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
-  .card { border-radius:14px; padding:20px; background:#fff; border:1px solid #e8e8f5; transition:.25s; }
-  .card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(102,126,234,.3); }
-  .card h3 { font-size:1.05rem; margin-bottom:4px; }
-  .muted { color:#6b6f8d; font-size:.85rem; }
-  .tag { display:inline-block; margin:4px 4px 0 0; padding:4px 12px; border-radius:20px; font-size:.78rem;
-         color:#fff; background:linear-gradient(90deg,var(--c1),var(--c2)); }
+  body { font-family:'Poppins',system-ui,sans-serif; color:var(--ink); background:var(--bg); background-attachment:fixed; min-height:100vh; }
+  .mono { font-family:'JetBrains Mono',ui-monospace,monospace; }
+  nav { position:sticky; top:0; z-index:10; display:flex; justify-content:center; flex-wrap:wrap; gap:4px; padding:10px;
+        backdrop-filter:blur(10px); background:var(--nav); border-bottom:1px solid var(--line); }
+  nav a { color:var(--hero); text-decoration:none; padding:6px 12px; border-radius:6px; font-size:.82rem; font-family:'JetBrains Mono',monospace; }
+  nav a:hover { background:rgba(128,128,128,.25); }
+  #themeBtn { position:fixed; right:16px; bottom:16px; z-index:20; border:0; cursor:pointer; padding:10px 16px; border-radius:30px;
+        font:600 .85rem 'Poppins'; color:#fff; background:linear-gradient(90deg,#667eea,#764ba2); box-shadow:0 4px 14px rgba(0,0,0,.4); }
+  header { max-width:1000px; margin:0 auto; padding:50px 20px 30px; display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center; color:var(--hero); }
+  .avatar { width:170px; height:170px; border-radius:50%; object-fit:cover; border:4px solid var(--a1); box-shadow:0 0 25px rgba(88,166,255,.45); }
+  header h1 { font-size:clamp(1.9rem,5vw,3rem); line-height:1.15; }
+  .role { font-size:1.15rem; margin:8px 0; color:var(--a2); min-height:1.6em; }
+  :root[data-theme="gradient"] .role { color:#fff; opacity:.95; }
+  .cursor { display:inline-block; width:9px; height:1.1em; background:currentColor; vertical-align:-3px; animation:blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+  .btns { margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
+  .btn { padding:9px 20px; border-radius:8px; text-decoration:none; font-weight:600; font-size:.85rem; background:var(--a1); color:#fff; border:2px solid var(--a1); }
+  .btn.ghost { background:transparent; color:var(--hero); border-color:var(--hero); }
+  :root[data-theme="gradient"] .btn { background:#fff; color:#764ba2; border-color:#fff; }
+  main { max-width:1000px; margin:0 auto; padding:0 20px 80px; }
+  .cell { background:var(--panel); border:1px solid var(--line); border-radius:12px; margin-bottom:22px; box-shadow:var(--shadow); overflow:hidden; }
+  .cell-head { display:flex; align-items:center; gap:12px; padding:10px 18px; border-bottom:1px solid var(--line); font-size:.8rem; color:var(--mut); }
+  .cell-head .in { color:var(--a1); font-weight:600; }
+  .cell-head .kw { color:var(--a3); }
+  .cell-body { padding:22px; }
+  h2 { font-size:1.3rem; margin-bottom:14px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .card { border:1px solid var(--line); border-radius:10px; padding:18px; transition:.25s; }
+  .card:hover { transform:translateY(-4px); border-color:var(--a1); }
+  .card h3 { font-size:1.02rem; margin-bottom:4px; }
+  .muted { color:var(--mut); font-size:.85rem; }
+  .tag { display:inline-block; margin:4px 4px 0 0; padding:3px 11px; border-radius:20px; font-size:.75rem; font-family:'JetBrains Mono',monospace;
+         color:var(--a1); border:1px solid var(--a1); }
+  .badge { display:inline-block; padding:3px 10px; border-radius:6px; font-size:.72rem; color:#fff; background:linear-gradient(90deg,var(--a1),var(--a2)); margin-bottom:8px; }
+  .stat { text-align:center; } .stat b { display:block; font-size:1.9rem; color:var(--a2); font-family:'JetBrains Mono',monospace; }
   ul { padding-left:20px; margin-top:8px; } li { margin-bottom:6px; font-size:.92rem; }
-  .job { padding-left:18px; border-left:4px solid var(--c1); margin-bottom:22px; }
-  .stat { text-align:center; } .stat b { display:block; font-size:1.8rem; color:var(--c2); }
-  footer { text-align:center; color:#fff; padding:24px; opacity:.85; font-size:.85rem; }
-  @media (max-width:600px){ section{padding:20px;} }
+  a { color:var(--a1); }
+  .bar { display:flex; align-items:center; gap:10px; margin:10px 0; font-size:.82rem; }
+  .bar span:first-child { width:110px; flex:none; } .bar i { display:block; height:12px; border-radius:6px; background:linear-gradient(90deg,var(--a1),var(--a3)); }
+  .out { margin-top:14px; padding:12px 16px; border-radius:8px; background:rgba(128,128,128,.12); font-size:.82rem; border-left:3px solid var(--a2); }
+  footer { text-align:center; color:var(--hero); padding:24px; opacity:.8; font-size:.8rem; }
+  @media (max-width:680px){ header { grid-template-columns:1fr; text-align:center; justify-items:center; } .btns{justify-content:center;} }
 </style>
 </head>
 <body>
 <nav>
-  <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a>
-  <a href="#skills">Skills</a><a href="#certs">Certifications</a><a href="#contact">Contact</a>
+  <a href="#about">about</a><a href="#experience">experience</a><a href="#projects">projects</a>
+  <a href="#skills">skills</a><a href="#certs">certs</a><a href="#contact">contact</a>
 </nav>
+<button id="themeBtn" onclick="toggleTheme()">Switch theme</button>
 
 <header>
   <img class="avatar" src="{{ url_for('static', filename='profile.jpg') }}" alt="{{ p.name }}">
-  <h1>{{ p.name }}</h1>
-  <p class="title">{{ p.title }}</p>
-  <p class="loc">&#128205; {{ p.location }}</p>
-  <div class="btns">
-    <a class="btn" href="{{ p.github }}" target="_blank" rel="noopener">GitHub</a>
-    <a class="btn" href="{{ p.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn ghost" href="#contact">Hire Me</a>
+  <div>
+    <p class="mono muted" style="color:var(--a3)">import pandas as pd &nbsp;# hello, world</p>
+    <h1>{{ p.name }}</h1>
+    <p class="role mono"><span id="typed"></span><span class="cursor"></span></p>
+    <p class="muted" style="color:var(--hero);opacity:.8">&#128205; {{ p.location }} &middot; {{ p.education.degree }}</p>
+    <div class="btns">
+      <a class="btn" href="#projects">View Projects</a>
+      <a class="btn ghost" href="{{ p.github }}" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn ghost" href="{{ p.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
   </div>
 </header>
 
 <main>
-  <section id="about">
-    <h2>About Me</h2>
-    <p>{{ p.summary }}</p>
-    <div class="grid" style="margin-top:20px">
-      <div class="card stat"><b>{{ p.education.cgpa.split(' ')[0] }}</b><span class="muted">CGPA</span></div>
-      <div class="card stat"><b>{{ p.experience|length }}</b><span class="muted">Internship</span></div>
-      <div class="card stat"><b>{{ p.projects|length }}</b><span class="muted">Projects</span></div>
-      <div class="card stat"><b>{{ p.certifications|length }}</b><span class="muted">Certifications</span></div>
+  <div class="cell" id="about">
+    <div class="cell-head mono"><span class="in">In [1]:</span><span><span class="kw">print</span>(about_me)</span></div>
+    <div class="cell-body">
+      <h2>About Me</h2>
+      <p>{{ p.summary }}</p>
+      <div class="grid" style="margin-top:18px">
+        <div class="card stat"><b>{{ p.education.cgpa.split(' ')[0] }}</b><span class="muted">CGPA</span></div>
+        <div class="card stat"><b>{{ p.projects|length }}</b><span class="muted">ML projects</span></div>
+        <div class="card stat"><b>{{ p.projects|length }}</b><span class="muted">live demos</span></div>
+        <div class="card stat"><b>{{ p.certifications|length }}</b><span class="muted">certifications</span></div>
+      </div>
+      <h3 style="margin-top:22px">&#127891; {{ p.education.degree }}</h3>
+      <p class="muted">{{ p.education.school }} &middot; {{ p.education.period }}</p>
+      <div>{% for c in p.education.coursework %}<span class="tag">{{ c }}</span>{% endfor %}</div>
     </div>
-    <h3 style="margin-top:24px">&#127891; {{ p.education.degree }}</h3>
-    <p class="muted">{{ p.education.school }} &middot; {{ p.education.period }}</p>
-    <div>{% for c in p.education.coursework %}<span class="tag">{{ c }}</span>{% endfor %}</div>
-  </section>
+  </div>
 
-  <section id="experience">
-    <h2>Experience</h2>
-    {% for e in p.experience %}
-    <div class="job">
+  <div class="cell" id="experience">
+    <div class="cell-head mono"><span class="in">In [2]:</span><span>experience.<span class="kw">head</span>()</span></div>
+    <div class="cell-body">
+      <h2>Experience</h2>
+      {% for e in p.experience %}
       <h3>{{ e.role }} &middot; {{ e.org }}</h3>
       <p class="muted">{{ e.period }} &middot; {{ e.mode }}</p>
       <ul>{% for pt in e.points %}<li>{{ pt }}</li>{% endfor %}</ul>
-    </div>
-    {% endfor %}
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="grid">
-      {% for pr in p.projects %}
-      <div class="card">
-        <h3>{{ pr.name }}</h3>
-        <p class="muted">{{ pr.date }}</p>
-        <p style="margin:10px 0;font-size:.92rem">{{ pr.desc }}</p>
-        <div>{% for s in pr.stack %}<span class="tag">{{ s }}</span>{% endfor %}</div>
-        <p style="margin-top:14px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="{{ pr.demo }}" target="_blank" rel="noopener"><b>&#9654; Live Demo</b></a>
-          <a href="{{ pr.github }}" target="_blank" rel="noopener">GitHub &rarr;</a>
-        </p>
-      </div>
       {% endfor %}
     </div>
-  </section>
+  </div>
 
-  <section id="skills">
-    <h2>Technical Skills</h2>
-    <div class="grid">
+  <div class="cell" id="projects">
+    <div class="cell-head mono"><span class="in">In [3]:</span><span>model.<span class="kw">fit</span>(projects)</span></div>
+    <div class="cell-body">
+      <h2>Projects</h2>
+      <div class="grid">
+        {% for pr in p.projects %}
+        <div class="card">
+          <span class="badge mono">{{ pr.type }}</span>
+          <h3>{{ pr.name }}</h3>
+          <p class="muted">{{ pr.date }}</p>
+          <p style="margin:10px 0;font-size:.9rem">{{ pr.desc }}</p>
+          <div>{% for t in pr.stack %}<span class="tag">{{ t }}</span>{% endfor %}</div>
+          <p style="margin-top:14px;display:flex;gap:14px;flex-wrap:wrap">
+            <a href="{{ pr.demo }}" target="_blank" rel="noopener"><b>&#9654; Live Demo</b></a>
+            <a href="{{ pr.github }}" target="_blank" rel="noopener">GitHub &rarr;</a>
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="cell" id="skills">
+    <div class="cell-head mono"><span class="in">In [4]:</span><span>skills.<span class="kw">value_counts</span>()</span></div>
+    <div class="cell-body">
+      <h2>Technical Skills</h2>
+      {% set mx = p.skills.values()|map('length')|max %}
       {% for cat, items in p.skills.items() %}
-      <div class="card"><h3>{{ cat }}</h3>
-        {% for i in items %}<span class="tag">{{ i }}</span>{% endfor %}
-      </div>
+      <div class="bar"><span class="mono">{{ cat }}</span><i style="width:{{ (items|length / mx * 60)|round|int }}%"></i><span class="muted">{{ items|length }}</span></div>
       {% endfor %}
+      <div class="grid" style="margin-top:16px">
+        {% for cat, items in p.skills.items() %}
+        <div class="card"><h3>{{ cat }}</h3>{% for i in items %}<span class="tag">{{ i }}</span>{% endfor %}</div>
+        {% endfor %}
+      </div>
+      <div class="out mono">Out[4]: {{ p.skills.values()|map('length')|sum }} skills across {{ p.skills|length }} categories</div>
     </div>
-  </section>
+  </div>
 
-  <section id="certs">
-    <h2>Certifications</h2>
-    <ul>{% for c in p.certifications %}<li>{{ c }}</li>{% endfor %}</ul>
-  </section>
+  <div class="cell" id="certs">
+    <div class="cell-head mono"><span class="in">In [5]:</span><span>certifications</span></div>
+    <div class="cell-body"><h2>Certifications</h2>
+      <ul>{% for c in p.certifications %}<li>{{ c }}</li>{% endfor %}</ul></div>
+  </div>
 
-  <section id="contact">
-    <h2>Get In Touch</h2>
-    <p>&#9993; <a href="mailto:{{ p.email }}">{{ p.email }}</a></p>
-    <p>&#128222; {{ p.phone }}</p>
-    <p>&#128205; {{ p.location }}</p>
-  </section>
+  <div class="cell" id="contact">
+    <div class="cell-head mono"><span class="in">In [6]:</span><span>contact.<span class="kw">send</span>()</span></div>
+    <div class="cell-body"><h2>Get In Touch</h2>
+      <p>&#9993; <a href="mailto:{{ p.email }}">{{ p.email }}</a></p>
+      <p>&#128222; {{ p.phone }}</p>
+      <p>&#128205; {{ p.location }}</p></div>
+  </div>
 </main>
 
-<footer>&copy; {{ year }} {{ p.name }}. Built with Flask.</footer>
+<footer class="mono">&copy; {{ year }} {{ p.name }} &middot; built with Flask</footer>
+
+<script>
+  function toggleTheme(){
+    var r=document.documentElement, t=r.dataset.theme==='dark'?'gradient':'dark';
+    r.dataset.theme=t; try{localStorage.setItem('theme',t)}catch(e){}
+  }
+  var roles=['Data Science Student','Machine Learning Enthusiast','Flask Developer','Python Programmer'], ri=0, ci=0, del=false, el=document.getElementById('typed');
+  (function tick(){
+    var w=roles[ri];
+    el.textContent=w.slice(0,ci);
+    if(!del && ci<w.length){ci++; return setTimeout(tick,80);}
+    if(!del){del=true; return setTimeout(tick,1400);}
+    if(ci>0){ci--; return setTimeout(tick,40);}
+    del=false; ri=(ri+1)%roles.length; setTimeout(tick,300);
+  })();
+</script>
 </body>
 </html>
 """
