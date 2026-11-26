@@ -51,7 +51,7 @@ PROFILE = {
             "stack": ["Python", "Pandas", "Scikit-learn", "XGBoost", "Flask", "Render"],
             "desc": "Machine Learning web app that estimates medical insurance cost using an XGBoost model, built on the Medical Insurance Cost dataset and deployed with Flask on Render.",
             "github": "https://github.com/bunnyjadhao",
-            "demo": "",
+            "demo": "https://xgboast-algorithm.onrender.com/",
         },
         {
             "name": "Loan Approval Classification",
@@ -60,7 +60,7 @@ PROFILE = {
             "stack": ["Python", "Pandas", "Scikit-learn", "Decision Tree", "Flask", "Render"],
             "desc": "Classification web app that predicts loan approval using a Decision Tree model trained on a loan approval dataset, deployed with Flask on Render.",
             "github": "https://github.com/bunnyjadhao",
-            "demo": "",
+            "demo": "https://decision-tree-algorithm-pn2t.onrender.com/",
         },
         {
             "name": "Laptop Users Prediction",
