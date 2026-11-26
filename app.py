@@ -14,7 +14,7 @@ PROFILE = {
     "email": "roshanjadhao267@gmail.com",
     "phone": "+91 7083940298",
     "github": "https://github.com/bunnyjadhao",
-    "linkedin": "https://www.linkedin.com/in/roshan-jadhao-257b33344/",
+    "linkedin": "https://linkedin.com/in/roshan-jadhao",
     "summary": (
         "Information Technology engineer with hands-on exposure to data preprocessing, "
         "exploratory analysis, machine learning and model evaluation. I enjoy turning data "
@@ -119,8 +119,8 @@ PAGE = """
   nav a { color:#fff; text-decoration:none; padding:6px 14px; border-radius:20px; font-size:.9rem; transition:.2s; }
   nav a:hover { background:rgba(255,255,255,.25); }
   header { text-align:center; color:#fff; padding:80px 20px 60px; }
-  .avatar { width:120px; height:120px; border-radius:50%; margin:0 auto 20px; display:grid; place-items:center;
-            font-size:2.6rem; font-weight:700; background:rgba(255,255,255,.2); border:3px solid #fff; }
+  .avatar { width:160px; height:160px; border-radius:50%; margin:0 auto 20px; object-fit:cover; display:block;
+            border:4px solid #fff; box-shadow:0 8px 25px rgba(0,0,0,.3); }
   header h1 { font-size:clamp(2rem,6vw,3.4rem); }
   header p.title { font-size:1.2rem; opacity:.95; margin:8px 0 4px; }
   header p.loc { opacity:.8; font-size:.95rem; }
@@ -155,7 +155,7 @@ PAGE = """
 </nav>
 
 <header>
-  <div class="avatar">{{ p.name.split()[0][0] }}{{ p.name.split()[-1][0] }}</div>
+  <img class="avatar" src="{{ url_for('static', filename='profile.jpg') }}" alt="{{ p.name }}">
   <h1>{{ p.name }}</h1>
   <p class="title">{{ p.title }}</p>
   <p class="loc">&#128205; {{ p.location }}</p>
