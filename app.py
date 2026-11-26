@@ -14,11 +14,11 @@ PROFILE = {
     "email": "roshanjadhao267@gmail.com",
     "phone": "+91 7083940298",
     "github": "https://github.com/bunnyjadhao",
-    "linkedin": "https://linkedin.com/in/roshan-jadhao",
+    "linkedin": "https://www.linkedin.com/in/roshan-jadhao-257b33344/",
     "summary": (
         "Information Technology engineer with hands-on exposure to data preprocessing, "
-        "exploratory analysis, machine learning and model evaluation. I enjoy turning data "
-        "into useful products - from computer-vision systems to analytics dashboards."
+        "exploratory analysis, machine learning and model evaluation. I build and deploy "
+        "end-to-end ML web apps - from computer-vision systems to prediction dashboards."
     ),
     "education": {
         "degree": "B.E. in Information Technology",
@@ -37,60 +37,54 @@ PROFILE = {
             "period": "Mar 2025 - Apr 2025",
             "mode": "Virtual",
             "points": [
-                "Completed a 1-month internship specializing in Data Science and data-driven problem solving.",
+                "Completed a 1-month internship specializing in Data Science, gaining practical exposure to data-driven problem solving.",
                 "Hands-on exposure to AI/ML algorithms, data preprocessing and model evaluation techniques.",
-                "Learned data analysis workflows and industry-level practices.",
-            ],
-        },
-        {
-            "role": "Cloud Security Intern",
-            "org": "EduSkills (AICTE)",
-            "period": "Jan 2025 - Feb 2025",
-            "mode": "Virtual",
-            "points": [
-                "Worked on cloud security projects under the guidance of industry experts.",
-                "Earned Course Completion and Internship Certificates from AICTE and EduSkills.",
+                "Developed an understanding of data analysis workflows and industry-level practices for solving data-driven problems.",
             ],
         },
     ],
     "projects": [
         {
+            "name": "AI Impact on Students",
+            "date": "Oct 2026",
+            "stack": ["Python", "Pandas", "NumPy", "Scikit-learn", "Logistic Regression", "Flask"],
+            "desc": (
+                "Python-based Machine Learning application that analyzes student AI usage patterns and "
+                "predicts impact levels as Low, Medium or High. Features an interactive Flask dashboard "
+                "covering academic profiles and AI usage habits, with prediction results shown with confidence scores."
+            ),
+            "github": "https://github.com/bunnyjadhao/Logistic-Regression.ML",
+            "demo": "https://logistic-regression-ml-ueu3.onrender.com",
+        },
+        {
+            "name": "House Price Prediction",
+            "date": "Sep 2026",
+            "stack": ["Python", "Flask", "Scikit-learn", "Pandas", "HTML", "CSS"],
+            "desc": (
+                "Linear Regression model that predicts house prices from seven property features. "
+                "Deployed as an interactive Flask web app that collects property details and displays the estimated price."
+            ),
+            "github": "https://github.com/bunnyjadhao/LinearRegression",
+            "demo": "https://linearregression-3698.onrender.com/",
+        },
+        {
             "name": "Drowsiness Detection System",
-            "date": "Feb 2024",
-            "stack": ["Python", "OpenCV", "Machine Learning", "Deep Learning"],
+            "date": "Feb 2025",
+            "stack": ["Python", "Flask", "JavaScript", "MediaPipe", "Render"],
             "desc": (
-                "Real-time driver fatigue detection using Eye Aspect Ratio (EAR) and facial "
-                "landmark detection with OpenCV, triggering alerts when drowsiness is detected."
+                "Real-time driver drowsiness detection web app that analyzes webcam video to spot signs of fatigue. "
+                "Uses EAR and MAR-based eye closure and yawning detection, with siren, screen flash and vibration alerts."
             ),
-            "link": "https://github.com/bunnyjadhao",
-        },
-        {
-            "name": "Social Media Manager",
-            "date": "Jun 2025",
-            "stack": ["React", "Node.js", "Express", "MongoDB", "APIs"],
-            "desc": (
-                "Platform for posting images and analysing engagement across multiple networks, "
-                "with real-time analytics for likes, shares, comments and impressions."
-            ),
-            "link": "https://github.com/bunnyjadhao",
-        },
-        {
-            "name": "Bike Rental Management System",
-            "date": "May 2023",
-            "stack": ["PHP", "MySQL", "HTML", "CSS"],
-            "desc": (
-                "Web app for bike booking with user registration, availability tracking, "
-                "rental booking and payment management."
-            ),
-            "link": "https://github.com/bunnyjadhao",
+            "github": "https://github.com/bunnyjadhao/Driver-Drowsiness-Detection",
+            "demo": "https://driver-drowsiness-detection-wwkt.onrender.com",
         },
     ],
     "skills": {
         "Data Science": ["Pandas", "NumPy", "Matplotlib", "Data Preprocessing", "Data Analysis",
                          "Data Visualization", "Machine Learning"],
-        "Languages": ["Python", "SQL", "Java", "C", "C++", "JavaScript", "PHP"],
-        "Web & APIs": ["React", "Node.js", "Express.js", "MongoDB", "Next.js", "REST APIs", "Postman"],
-        "Tools": ["VS Code", "Eclipse", "Android Studio", "Google Cloud Platform"],
+        "Languages": ["Python", "SQL", "Java", "C", "C++", "JavaScript", "PHP", "HTML", "CSS"],
+        "Web & APIs": ["React", "Node.js", "Express.js", "MongoDB", "Next.js", "REST APIs", "API Testing"],
+        "Tools": ["VS Code", "Eclipse", "Android Studio", "Google Cloud Platform", "Postman"],
     },
     "certifications": [
         "Skill India - AI For India 2.0",
@@ -172,7 +166,7 @@ PAGE = """
     <p>{{ p.summary }}</p>
     <div class="grid" style="margin-top:20px">
       <div class="card stat"><b>{{ p.education.cgpa.split(' ')[0] }}</b><span class="muted">CGPA</span></div>
-      <div class="card stat"><b>{{ p.experience|length }}</b><span class="muted">Internships</span></div>
+      <div class="card stat"><b>{{ p.experience|length }}</b><span class="muted">Internship</span></div>
       <div class="card stat"><b>{{ p.projects|length }}</b><span class="muted">Projects</span></div>
       <div class="card stat"><b>{{ p.certifications|length }}</b><span class="muted">Certifications</span></div>
     </div>
@@ -201,7 +195,10 @@ PAGE = """
         <p class="muted">{{ pr.date }}</p>
         <p style="margin:10px 0;font-size:.92rem">{{ pr.desc }}</p>
         <div>{% for s in pr.stack %}<span class="tag">{{ s }}</span>{% endfor %}</div>
-        <p style="margin-top:12px"><a href="{{ pr.link }}" target="_blank" rel="noopener">View on GitHub &rarr;</a></p>
+        <p style="margin-top:14px;display:flex;gap:14px;flex-wrap:wrap">
+          <a href="{{ pr.demo }}" target="_blank" rel="noopener"><b>&#9654; Live Demo</b></a>
+          <a href="{{ pr.github }}" target="_blank" rel="noopener">GitHub &rarr;</a>
+        </p>
       </div>
       {% endfor %}
     </div>
