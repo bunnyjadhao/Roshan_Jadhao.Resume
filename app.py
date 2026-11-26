@@ -45,6 +45,52 @@ PROFILE = {
     ],
     "projects": [
         {
+            "name": "Medical Insurance Cost Prediction",
+            "type": "Regression | XGBoost",
+            "date": "2026",
+            "stack": ["Python", "Pandas", "Scikit-learn", "XGBoost", "Flask", "Render"],
+            "desc": "Machine Learning web app that estimates medical insurance cost using an XGBoost model, built on the Medical Insurance Cost dataset and deployed with Flask on Render.",
+            "github": "https://github.com/bunnyjadhao",
+            "demo": "",
+        },
+        {
+            "name": "Loan Approval Classification",
+            "type": "Classification | Decision Tree",
+            "date": "2026",
+            "stack": ["Python", "Pandas", "Scikit-learn", "Decision Tree", "Flask", "Render"],
+            "desc": "Classification web app that predicts loan approval using a Decision Tree model trained on a loan approval dataset, deployed with Flask on Render.",
+            "github": "https://github.com/bunnyjadhao",
+            "demo": "",
+        },
+        {
+            "name": "Laptop Users Prediction",
+            "type": "Classification | Support Vector Machine",
+            "date": "2026",
+            "stack": ["Python", "Pandas", "NumPy", "Scikit-learn", "Flask", "Machine Learning", "Render"],
+            "desc": (
+                "Web app that predicts a Yes/No outcome from age, gender, region, occupation and income. "
+                "Uses an SVM to find the maximum-margin decision boundary, with data preprocessing, feature "
+                "scaling and categorical encoding. Results are shown with confidence scores."
+            ),
+            "github": "https://lnkd.in/dZEy7gzh",
+            "demo": "https://lnkd.in/d8DzzMjx",
+        },
+        {
+            "name": "Heart Disease Prediction",
+            "type": "Classification | K-Nearest Neighbors",
+            "date": "2026",
+            "stack": ["Python", "Pandas", "NumPy", "Scikit-learn", "Machine Learning", "Render"],
+            "desc": (
+                "Web app that predicts the likelihood of heart disease from patient details such as age, "
+                "blood pressure, cholesterol, maximum heart rate, chest pain type and ST depression. "
+                "Uses KNN to find similar records in the training data, with data preprocessing, feature "
+                "scaling and handling of numerical and categorical features."
+            ),
+            "note": "Educational project only - not intended for medical diagnosis.",
+            "github": "https://lnkd.in/dttRxCzG",
+            "demo": "https://lnkd.in/dQjBR3bR",
+        },
+        {
             "name": "AI Impact on Students",
             "type": "Classification | Logistic Regression",
             "date": "Oct 2026",
@@ -89,6 +135,14 @@ PROFILE = {
         "Web & APIs": ["React", "Node.js", "Express.js", "MongoDB", "Next.js", "REST APIs", "API Testing"],
         "Tools": ["VS Code", "Eclipse", "Android Studio", "Google Cloud Platform", "Postman"],
     },
+    "workflow": [
+        ("01", "Data Collection", "Datasets, Pandas"),
+        ("02", "Preprocessing", "Cleaning, scaling"),
+        ("03", "Encoding", "Categorical features"),
+        ("04", "Model Training", "Scikit-learn, XGBoost"),
+        ("05", "Evaluation", "Predictions, confidence"),
+        ("06", "Deployment", "Flask + Render"),
+    ],
     "certifications": [
         "Skill India - AI For India 2.0",
         "Great Learning - Front End Development (HTML)",
@@ -154,13 +208,26 @@ PAGE = """
   .bar { display:flex; align-items:center; gap:10px; margin:10px 0; font-size:.82rem; }
   .bar span:first-child { width:110px; flex:none; } .bar i { display:block; height:12px; border-radius:6px; background:linear-gradient(90deg,var(--a1),var(--a3)); }
   .out { margin-top:14px; padding:12px 16px; border-radius:8px; background:rgba(128,128,128,.12); font-size:.82rem; border-left:3px solid var(--a2); }
+  #net { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55; }
+  nav, header, main, footer { position:relative; z-index:1; } nav { position:sticky; }
+  table.df { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:.78rem; margin-bottom:20px; }
+  .tblwrap { overflow-x:auto; }
+  table.df th { text-align:left; padding:8px 12px; border-bottom:2px solid var(--a1); color:var(--a3); white-space:nowrap; }
+  table.df td { padding:8px 12px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  table.df td:first-child { color:var(--mut); } table.df tr:hover td { background:rgba(128,128,128,.12); }
+  .flow { display:grid; grid-template-columns:repeat(auto-fit,minmax(135px,1fr)); gap:10px; }
+  .step { position:relative; border:1px solid var(--line); border-radius:10px; padding:14px 12px; }
+  .step b { font-family:'JetBrains Mono',monospace; color:var(--a2); font-size:1.1rem; display:block; }
+  .step h4 { font-size:.9rem; margin:2px 0; }
+  .step:not(:last-child)::after { content:'\2192'; position:absolute; right:-9px; top:40%; color:var(--a1); z-index:2; font-size:1rem; }
   footer { text-align:center; color:var(--hero); padding:24px; opacity:.8; font-size:.8rem; }
   @media (max-width:680px){ header { grid-template-columns:1fr; text-align:center; justify-items:center; } .btns{justify-content:center;} }
 </style>
 </head>
 <body>
+<canvas id="net"></canvas>
 <nav>
-  <a href="#about">about</a><a href="#experience">experience</a><a href="#projects">projects</a>
+  <a href="#about">about</a><a href="#experience">experience</a><a href="#projects">projects</a><a href="#workflow">workflow</a>
   <a href="#skills">skills</a><a href="#certs">certs</a><a href="#contact">contact</a>
 </nav>
 <button id="themeBtn" onclick="toggleTheme()">Switch theme</button>
@@ -189,7 +256,7 @@ PAGE = """
       <div class="grid" style="margin-top:18px">
         <div class="card stat"><b>{{ p.education.cgpa.split(' ')[0] }}</b><span class="muted">CGPA</span></div>
         <div class="card stat"><b>{{ p.projects|length }}</b><span class="muted">ML projects</span></div>
-        <div class="card stat"><b>{{ p.projects|length }}</b><span class="muted">live demos</span></div>
+        <div class="card stat"><b>{{ n_algos }}</b><span class="muted">ML algorithms</span></div>
         <div class="card stat"><b>{{ p.certifications|length }}</b><span class="muted">certifications</span></div>
       </div>
       <h3 style="margin-top:22px">&#127891; {{ p.education.degree }}</h3>
@@ -214,6 +281,10 @@ PAGE = """
     <div class="cell-head mono"><span class="in">In [3]:</span><span>model.<span class="kw">fit</span>(projects)</span></div>
     <div class="cell-body">
       <h2>Projects</h2>
+      <div class="tblwrap"><table class="df">
+        <tr><th></th><th>project</th><th>task</th><th>algorithm</th><th>deployed</th></tr>
+        {% for pr in p.projects %}<tr><td>{{ loop.index0 }}</td><td>{{ pr.name }}</td><td>{{ pr.type.split(' | ')[0] }}</td><td>{{ pr.type.split(' | ')[1] }}</td><td>{{ 'Render' if 'Render' in pr.stack else 'Web' }}</td></tr>{% endfor %}
+      </table></div>
       <div class="grid">
         {% for pr in p.projects %}
         <div class="card">
@@ -222,8 +293,9 @@ PAGE = """
           <p class="muted">{{ pr.date }}</p>
           <p style="margin:10px 0;font-size:.9rem">{{ pr.desc }}</p>
           <div>{% for t in pr.stack %}<span class="tag">{{ t }}</span>{% endfor %}</div>
+          {% if pr.note %}<p class="muted" style="margin-top:10px">&#9888;&#65039; {{ pr.note }}</p>{% endif %}
           <p style="margin-top:14px;display:flex;gap:14px;flex-wrap:wrap">
-            <a href="{{ pr.demo }}" target="_blank" rel="noopener"><b>&#9654; Live Demo</b></a>
+            {% if pr.demo %}<a href="{{ pr.demo }}" target="_blank" rel="noopener"><b>&#9654; Live Demo</b></a>{% endif %}
             <a href="{{ pr.github }}" target="_blank" rel="noopener">GitHub &rarr;</a>
           </p>
         </div>
@@ -232,8 +304,18 @@ PAGE = """
     </div>
   </div>
 
+  <div class="cell" id="workflow">
+    <div class="cell-head mono"><span class="in">In [4]:</span><span>pipeline.<span class="kw">run</span>()</span></div>
+    <div class="cell-body">
+      <h2>My ML Workflow</h2>
+      <div class="flow">
+        {% for n,t,d in p.workflow %}<div class="step"><b>{{ n }}</b><h4>{{ t }}</h4><span class="muted">{{ d }}</span></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+
   <div class="cell" id="skills">
-    <div class="cell-head mono"><span class="in">In [4]:</span><span>skills.<span class="kw">value_counts</span>()</span></div>
+    <div class="cell-head mono"><span class="in">In [5]:</span><span>skills.<span class="kw">value_counts</span>()</span></div>
     <div class="cell-body">
       <h2>Technical Skills</h2>
       {% set mx = p.skills.values()|map('length')|max %}
@@ -245,18 +327,18 @@ PAGE = """
         <div class="card"><h3>{{ cat }}</h3>{% for i in items %}<span class="tag">{{ i }}</span>{% endfor %}</div>
         {% endfor %}
       </div>
-      <div class="out mono">Out[4]: {{ p.skills.values()|map('length')|sum }} skills across {{ p.skills|length }} categories</div>
+      <div class="out mono">Out[5]: {{ p.skills.values()|map('length')|sum }} skills across {{ p.skills|length }} categories</div>
     </div>
   </div>
 
   <div class="cell" id="certs">
-    <div class="cell-head mono"><span class="in">In [5]:</span><span>certifications</span></div>
+    <div class="cell-head mono"><span class="in">In [6]:</span><span>certifications</span></div>
     <div class="cell-body"><h2>Certifications</h2>
       <ul>{% for c in p.certifications %}<li>{{ c }}</li>{% endfor %}</ul></div>
   </div>
 
   <div class="cell" id="contact">
-    <div class="cell-head mono"><span class="in">In [6]:</span><span>contact.<span class="kw">send</span>()</span></div>
+    <div class="cell-head mono"><span class="in">In [7]:</span><span>contact.<span class="kw">send</span>()</span></div>
     <div class="cell-body"><h2>Get In Touch</h2>
       <p>&#9993; <a href="mailto:{{ p.email }}">{{ p.email }}</a></p>
       <p>&#128222; {{ p.phone }}</p>
@@ -280,6 +362,24 @@ PAGE = """
     if(ci>0){ci--; return setTimeout(tick,40);}
     del=false; ri=(ri+1)%roles.length; setTimeout(tick,300);
   })();
+
+  (function(){
+    var c=document.getElementById('net'), x=c.getContext('2d'), N=[], W, H;
+    function size(){ W=c.width=innerWidth; H=c.height=innerHeight; }
+    size(); addEventListener('resize', size);
+    for(var i=0;i<55;i++) N.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4});
+    (function draw(){
+      var col=getComputedStyle(document.documentElement).getPropertyValue('--a1').trim()||'#58a6ff';
+      x.clearRect(0,0,W,H); x.fillStyle=col; x.strokeStyle=col;
+      N.forEach(function(a,i){
+        a.x+=a.vx; a.y+=a.vy; if(a.x<0||a.x>W)a.vx*=-1; if(a.y<0||a.y>H)a.vy*=-1;
+        x.beginPath(); x.arc(a.x,a.y,2,0,6.3); x.fill();
+        for(var j=i+1;j<N.length;j++){ var b=N[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+          if(d<130){ x.globalAlpha=1-d/130; x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke(); x.globalAlpha=1; } }
+      });
+      requestAnimationFrame(draw);
+    })();
+  })();
 </script>
 </body>
 </html>
@@ -289,7 +389,8 @@ PAGE = """
 @app.route("/")
 def home():
     from datetime import datetime
-    return render_template_string(PAGE, p=PROFILE, year=datetime.now().year)
+    n_algos = sum(1 for x in PROFILE["projects"] if not x["type"].startswith("Computer"))
+    return render_template_string(PAGE, p=PROFILE, year=datetime.now().year, n_algos=n_algos)
 
 
 @app.route("/api/portfolio")
